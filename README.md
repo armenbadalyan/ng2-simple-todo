@@ -1,0 +1,1 @@
+# Simple ToDo list created based on Angular 2 quick start template.
