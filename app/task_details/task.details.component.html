@@ -1,0 +1,14 @@
+<md-toolbar color="primary" fx-layout-align="space-between">
+    <span class="header-title">{{ isNewItem ? 'Ceate new item' : 'Edit item'}}</span>
+    <button md-icon-button (click)="close()">
+        <md-icon>close</md-icon>
+    </button>
+</md-toolbar>
+<div class="content" *ngIf="toDo">
+    
+    <md-input class="full-input" placeholder="Description" [(ngModel)]="toDo.description"></md-input>
+    <md-input class="full-input" type="date" [(ngModel)]="date"></md-input>
+    <md-input class="full-input" type="time" [(ngModel)]="time"></md-input>
+    
+    <button class="create-button" md-raised-button color="primary" (click)="createItem()">{{ isNewItem ? 'CREATE' : 'UPDATE'}}</button>
+</div>

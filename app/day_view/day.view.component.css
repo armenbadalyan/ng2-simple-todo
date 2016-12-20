@@ -1,0 +1,25 @@
+.header-title{
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.item {
+	margin-bottom: 10px;
+}
+
+.item-index {
+	float: left;
+	margin-right: 15px; 	
+	padding-top: 4px;
+}
+
+.item-due {
+	float: right;
+	padding-top: 3px;
+}
+
+.add-button {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+}

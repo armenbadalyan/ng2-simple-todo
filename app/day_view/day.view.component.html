@@ -1,0 +1,23 @@
+<md-toolbar color="primary" fx-layout-align="space-between">
+    <button md-icon-button (click)="decrementDate()">
+        <md-icon>chevron_left</md-icon>
+    </button>
+    <span class="header-title">{{currentDateString}}</span>
+    <button md-icon-button (click)="incrementDate()">
+        <md-icon>chevron_right</md-icon>
+    </button>
+</md-toolbar>
+<div class="content">
+    <ul>
+        <li class="item" *ngFor="let todo of toDoList; let i=index">
+            <span class="item-index">{{i + 1}}.</span>
+            <md-checkbox [checked]="todo.completed" (change)="handleCheck(todo)">
+                {{todo.description}}
+            </md-checkbox>
+            <span class="item-due">{{ todo.dueDate | date:'hh:mm'}}</span>
+        </li>
+    </ul>
+    <button md-fab class="add-button" (click)="createItem()">
+        <md-icon class="md-24">add</md-icon>
+    </button>
+</div>

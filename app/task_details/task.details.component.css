@@ -1,0 +1,8 @@
+.header-title{
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.create-button {
+	margin-top: 30px;
+}
