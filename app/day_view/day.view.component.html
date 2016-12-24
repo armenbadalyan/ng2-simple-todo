@@ -9,7 +9,7 @@
 </md-toolbar>
 <div class="content">
     <ul>
-        <li class="item" *ngFor="let todo of toDoList; let i=index">
+        <li class="item" *ngFor="let todo of toDoList | async; let i=index">
             <span class="item-index">{{i + 1}}.</span>
             <md-checkbox [checked]="todo.completed" (change)="handleCheck(todo)">
                 {{todo.description}}

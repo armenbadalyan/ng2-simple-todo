@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToDoService } from '../model/todo.service';
 import { ToDo } from '../model/todo';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as moment from 'moment';
 
 @Component({
@@ -12,14 +14,20 @@ import * as moment from 'moment';
 export class DayViewComponent implements OnInit {
 
 	public currentDateString: string;
-	public toDoList: ToDo[];
+	public toDoList: Observable<ToDo[]>;
 
 	private dateOffset = 0;
+	private dayStream:BehaviorSubject<number> = new BehaviorSubject(0);
 
-	constructor(private toDoService: ToDoService, private router: Router, ) { }
+
+	constructor(private toDoService: ToDoService, private router: Router ) { }
 
 	ngOnInit(): void {
-		this.setDateString();
+		this.setDateString();		
+
+		this.toDoList = this.dayStream
+			.switchMap(offset => this.toDoService.getItemsForDay(offset));
+
 		this.updateList();
 	}
 
@@ -50,7 +58,7 @@ export class DayViewComponent implements OnInit {
 	}
 
 	private updateList() {
-		this.toDoService.getItemsForDay(this.dateOffset).then((newItems) => { this.toDoList = newItems; });
+		this.dayStream.next(this.dateOffset);
 	}
 
 }
