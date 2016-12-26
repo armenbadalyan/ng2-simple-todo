@@ -24,3 +24,7 @@ li {
 .full-input {
 	display: block;
 }
+
+.error {
+	color: #f44336;
+}

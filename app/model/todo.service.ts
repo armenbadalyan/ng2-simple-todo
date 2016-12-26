@@ -16,13 +16,13 @@ export class ToDoService {
   constructor(private http: Http) { }
 
   // get items for specific day
-  getItemsForDay(dateOffset: number): Promise<ToDo[]> {
+  getItemsForDay(dateOffset: number): Observable<ToDo[]> {
     let day = moment().add(dateOffset, 'days'),
       startOfTheDay = day.startOf('day').valueOf(),
       endOfTheDay = day.endOf('day').valueOf();
 
     return this.makeGet('', { "where": { "$and": [{ "dueDate": { "$gte": startOfTheDay } }, { "dueDate": { "$lt": endOfTheDay } }] } })
-      .then(function(response) {
+      .map(function(response) {
         return response.json().map(function(item: any) {
           return new ToDo(item._id, item.description, new Date(item.dueDate), item.completed);
         });
@@ -48,7 +48,7 @@ export class ToDoService {
       .catch(this.handleError);
   }
 
-  private makeGet(path?: string, params?: any): Promise<any> {
+  private makeGet(path?: string, params?: any): Observable<Response> {
     let fullUrl = this.toDoUrl,
       queryParams = new URLSearchParams();
 
@@ -61,7 +61,7 @@ export class ToDoService {
       });
     }
 
-    return this.http.get(fullUrl, { headers: this.getHeaders, search: queryParams }).toPromise();
+    return this.http.get(fullUrl, { headers: this.getHeaders, search: queryParams });
   }
 
   private makePost(data: Object, path?: string): Promise<any> {

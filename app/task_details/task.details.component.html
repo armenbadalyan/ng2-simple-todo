@@ -4,11 +4,14 @@
         <md-icon>close</md-icon>
     </button>
 </md-toolbar>
-<div class="content" *ngIf="toDo">
-    
-    <md-input class="full-input" placeholder="Description" [(ngModel)]="toDo.description"></md-input>
-    <md-input class="full-input" type="date" [(ngModel)]="date"></md-input>
-    <md-input class="full-input" type="time" [(ngModel)]="time"></md-input>
-    
-    <button class="create-button" md-raised-button color="primary" (click)="createItem()">{{ isNewItem ? 'CREATE' : 'UPDATE'}}</button>
+<div class="content">
+    <form novalidate [formGroup]="toDoForm" (ngSubmit)="createItem(toDoForm.value)">
+        <md-input class="full-input" placeholder="Description" formControlName="description"></md-input>
+        <span class="error" *ngIf="toDoForm.controls.description.hasError('required') && toDoForm.controls.description.touched">Description field is required</span>
+        <md-input class="full-input" type="date" formControlName="date"></md-input>
+        <span class="error" *ngIf="toDoForm.controls.date.hasError('required') && toDoForm.controls.date.touched">Description field is required</span>
+        <md-input class="full-input" type="time" formControlName="time"></md-input>
+        <span class="error" *ngIf="toDoForm.controls.time.hasError('required') && toDoForm.controls.time.touched">Description field is required</span>
+        <button type="submit" class="create-button" md-raised-button color="primary" (click)="createItem()" [disabled]="!toDoForm.valid">{{ isNewItem ? 'CREATE' : 'UPDATE'}}</button>
+    </form>
 </div>
