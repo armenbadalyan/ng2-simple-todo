@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppPage } from '../layout/app.page';
+import { AppPageService } from '../layout/app.page.service';
 import { ToDoService } from '../model/todo.service';
 import { ToDo } from '../model/todo';
 import { Observable } from 'rxjs/Observable';
@@ -11,16 +13,22 @@ import * as moment from 'moment';
 	templateUrl: 'app/day_view/day.view.component.html',
 	styleUrls: ['app/day_view/day.view.component.css']
 })
-export class DayViewComponent implements OnInit {
+export class DayViewComponent implements OnInit, AppPage {
 
 	public currentDateString: string;
+	public prevDateString: string;
+	public nextDateString: string;
 	public toDoList: Observable<ToDo[]>;
+
+	/* AppPage interface impl */
+	public title:BehaviorSubject<string> = new BehaviorSubject('');
+	public hasBack:BehaviorSubject<boolean> = new BehaviorSubject(false);
 
 	private dateOffset = 0;
 	private dayStream:BehaviorSubject<number> = new BehaviorSubject(0);
 
 
-	constructor(private toDoService: ToDoService, private router: Router ) { }
+	constructor(private toDoService: ToDoService, private router: Router, private appPageService: AppPageService ) { }
 
 	ngOnInit(): void {
 		this.setDateString();		
@@ -29,6 +37,7 @@ export class DayViewComponent implements OnInit {
 			.switchMap(offset => this.toDoService.getItemsForDay(offset));
 
 		this.updateList();
+		this.appPageService.notifyPageInit(this);
 	}
 
 	incrementDate(): void {
@@ -43,11 +52,6 @@ export class DayViewComponent implements OnInit {
 		this.updateList();
 	}
 
-	createItem(): void {
-		let link = ['/task_details', 'new', this.dateOffset];
-		this.router.navigate(link);
-	}
-
 	handleCheck(todo:ToDo): void {
 		todo.completed = !todo.completed;
 		this.toDoService.save(todo);
@@ -55,6 +59,9 @@ export class DayViewComponent implements OnInit {
 
 	private setDateString() {
 		this.currentDateString = moment().add(this.dateOffset, 'days').format('dddd, MMMM D');
+		this.prevDateString = moment().add(this.dateOffset - 1, 'days').format('MMM D');
+		this.nextDateString = moment().add(this.dateOffset + 1, 'days').format('MMM D');
+		this.title.next(this.currentDateString);
 	}
 
 	private updateList() {

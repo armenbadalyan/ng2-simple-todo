@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { AppPage } from '../layout/app.page';
+import { AppPageService } from '../layout/app.page.service';
 
 import { ToDoService } from '../model/todo.service';
 import { ToDo } from '../model/todo';
@@ -11,14 +14,18 @@ import * as moment from 'moment';
 	templateUrl: 'app/task_details/task.details.component.html',
 	styleUrls: ['app/task_details/task.details.component.css']
 })
-export class TaskDetailsComponent implements OnInit {
+export class TaskDetailsComponent implements OnInit, AppPage {
 
 	public viewState: string;
 	public toDoForm: FormGroup;
 	public isNewItem: boolean;
 	public toDo:ToDo;	
 
-	constructor(private toDoService: ToDoService, private route: ActivatedRoute, private fb: FormBuilder) { }
+	/* AppPage interface impl */
+	public title:BehaviorSubject<string> = new BehaviorSubject('');
+	public hasBack:BehaviorSubject<boolean> = new BehaviorSubject(true);
+
+	constructor(private toDoService: ToDoService, private route: ActivatedRoute, private appPageService: AppPageService, private fb: FormBuilder) { }
 
 	ngOnInit(): void {
 
@@ -29,7 +36,9 @@ export class TaskDetailsComponent implements OnInit {
 		});
 
 		this.route.params
-			.subscribe((params: Params) => this.initState(params));		
+			.subscribe((params: Params) => this.initState(params));
+
+		this.appPageService.notifyPageInit(this);
 
 	}
 
@@ -40,11 +49,7 @@ export class TaskDetailsComponent implements OnInit {
 			this.toDo = new ToDo('tempId', formData.description, moment(formData.date+' '+formData.time).toDate(), false);
 			this.toDoService.create(this.toDo).then(()=>this.close());
 		}		
-	}
-
-	close():void {
-		window.history.back();
-	}
+	}	
 
 	private initState(params: Params) {
 
@@ -54,7 +59,8 @@ export class TaskDetailsComponent implements OnInit {
 				description: '',
 				date: moment().format('YYYY-MM-DD'),
 				time: ''
-			})
+			});
+			this.title.next('Create new item')
 		}
 		else {
 			// TODO: get item from the server

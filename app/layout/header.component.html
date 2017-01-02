@@ -1,0 +1,6 @@
+<md-toolbar color="primary" fx-layout-align="space-between">
+    <span class="header-title">{{title}}</span>
+    <button *ngIf="hasBack" md-icon-button (click)="close()">
+        <md-icon>close</md-icon>
+    </button>
+</md-toolbar>

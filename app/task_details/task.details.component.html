@@ -1,9 +1,3 @@
-<md-toolbar color="primary" fx-layout-align="space-between">
-    <span class="header-title">{{ isNewItem ? 'Ceate new item' : 'Edit item'}}</span>
-    <button md-icon-button (click)="close()">
-        <md-icon>close</md-icon>
-    </button>
-</md-toolbar>
 <div class="content">
     <form novalidate [formGroup]="toDoForm" (ngSubmit)="createItem(toDoForm.value)">
         <md-input class="full-input" placeholder="Description" formControlName="description"></md-input>

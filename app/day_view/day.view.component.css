@@ -1,6 +1,7 @@
-.header-title{
-  flex: 1 1 auto;
-  text-align: center;
+.day-view-nav {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
 }
 
 .item {
@@ -18,8 +19,8 @@
 	padding-top: 3px;
 }
 
-.add-button {
-	position: absolute;
-	bottom: 20px;
-	right: 20px;
+.no-items {
+	font-size: 16px;
+	text-align: center;
+	margin-top: 40px;
 }
