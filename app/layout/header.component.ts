@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
 
 	ngOnInit():void {}
 
-	close():void {
+	goBack():void {
 		window.history.back();
 	}
 } 
