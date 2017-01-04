@@ -8,10 +8,11 @@
 </div>
 <div class="separator">
 </div>
-<div *ngIf="!(toDoList | async)?.length" class="no-items">No items available for this day</div>
+<div *ngIf="!toDoList?.length && !isLoading" class="no-items">No items available for this day</div>
+<div class="centered-spinner" ><md-progress-circle *ngIf="isLoading" style="width:28px; height: 28px" mode="indeterminate"></md-progress-circle></div>
 
 <ul>
-    <li class="item" *ngFor="let todo of toDoList | async; let i=index">
+    <li class="item" *ngFor="let todo of toDoList; let i=index">
         <span class="item-index">{{i + 1}}.</span>
         <md-checkbox [checked]="todo.completed" (change)="handleCheck(todo)">
             {{todo.description}}
