@@ -1,6 +1,6 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DayViewComponent }   	from './day.view.component';
+import { DayViewComponent }   	from './day-view.component';
 
 
 const routes: Routes = [  

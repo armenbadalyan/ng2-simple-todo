@@ -10,8 +10,8 @@ import * as moment from 'moment';
 
 @Component({
 	selector: 'day-view',
-	templateUrl: 'app/day_view/day.view.component.html',
-	styleUrls: ['app/day_view/day.view.component.css']
+	templateUrl: 'app/day_view/day-view.component.html',
+	styleUrls: ['app/day_view/day-view.component.css']
 })
 export class DayViewComponent implements OnInit, AppPage {
 

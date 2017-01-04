@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 import { AppPage } from '../layout/app.page';
 import { AppPageService } from '../layout/app.page.service';
 
@@ -11,8 +12,8 @@ import * as moment from 'moment';
 
 @Component({
 	selector: 'task_details',
-	templateUrl: 'app/task_details/task.details.component.html',
-	styleUrls: ['app/task_details/task.details.component.css']
+	templateUrl: 'app/task_details/task-details.component.html',
+	styleUrls: ['app/task_details/task-details.component.css']
 })
 export class TaskDetailsComponent implements OnInit, AppPage {
 
@@ -47,7 +48,7 @@ export class TaskDetailsComponent implements OnInit, AppPage {
 		if (formData && this.toDoForm.valid) {
 			console.dir(formData);
 			this.toDo = new ToDo('tempId', formData.description, moment(formData.date+' '+formData.time).toDate(), false);
-			this.toDoService.create(this.toDo).then(()=>this.close());
+			this.toDoService.create(this.toDo).then(() => window.history.back() );
 		}		
 	}	
 
