@@ -14,7 +14,7 @@
 <ul>
     <li class="item" *ngFor="let todo of toDoList; let i=index">
         <span class="item-index">{{i + 1}}.</span>
-        <md-checkbox [checked]="todo.completed" (change)="handleCheck(todo)">
+        <md-checkbox [checked]="todo.completed" (change)="handleCheck(todo)" [lineThrough]="todo.completed">
             {{todo.description}}
         </md-checkbox>
         <span class="item-due">{{ todo.dueDate | date:'hh:mm'}}</span>
